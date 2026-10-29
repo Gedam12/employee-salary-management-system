@@ -1,0 +1,67 @@
+# Employee Salary Management System
+**Incubyte Engineering Assessment | Requirements & Scope | Version 0.1**
+
+## 1. Goal and Problem Statement
+
+ACME is an organization with 10,000 employees across multiple countries. Currently, the HR team manages employee salary information through Excel spreadsheets, making data maintenance and salary analysis tedious.
+
+The goal is to build a web-based Employee Salary Management System that allows HR managers to manage employee salary records efficiently and answer questions about how the organization compensates its employees.
+
+## 2. Target User
+
+**HR Manager:** Responsible for maintaining employee salary information, reviewing compensation data, and understanding salary distribution across the organization.
+
+## 3. Proposed Functional Requirements
+
+- **Employee Management:** View, add, update, search, and filter employee records.
+- **Salary Management:** View and update employee salaries with appropriate input validation.
+- **HR Dashboard:** Display total employees, salary summaries, and payroll information.
+- **Salary Analytics:** Analyze salary distribution by department, country, and employee.
+- **Search and Pagination:** Efficiently navigate records for 10,000 employees.
+- **Data Seeding:** Provide a script to generate 10,000 realistic sample employee records.
+
+## 4. Non-Functional Requirements
+
+- **Performance:** Efficient database queries, server-side pagination, and responsive UI.
+- **Maintainability:** Clear separation of responsibilities, readable code, and modular architecture.
+- **Reliability:** Meaningful unit tests covering core business logic and validation.
+- **Data Integrity:** Prevent invalid salary values and maintain consistent employee records.
+- **Security:** Validate inputs and restrict sensitive salary operations as appropriate to the agreed scope.
+
+## 5. Proposed Technology Stack
+
+- **Backend:** Java 21, Spring Boot, REST APIs
+- **Frontend:** Angular, TypeScript
+- **Database:** PostgreSQL
+- **Testing:** JUnit 5, Mockito, and frontend tests where appropriate
+- **Version Control:** Git with incremental, meaningful commits
+- **Deployment:** Publicly accessible demonstration environment
+
+## 6. Initial Scope Exclusions
+
+To keep the solution focused, the following are excluded unless clarified as required:
+
+- Payroll processing and tax calculations
+- Bank transfers and salary disbursements
+- Integration with external HR platforms
+- Complex approval workflows
+- Advanced predictive analytics
+
+## 7. Open Questions
+
+1. Should the system support multiple currencies and currency conversion?
+2. Is historical salary tracking required?
+3. Is authentication or role-based access control expected?
+4. Should compensation include bonuses and allowances, or only base salary?
+
+## 8. Acceptance Criteria
+
+- HR managers can view and manage employee and salary information through a functional web UI.
+- The system supports a seeded dataset of 10,000 employees.
+- Search, filtering, and pagination work correctly.
+- Salary summaries and analytics provide meaningful information.
+- Core business functionality is covered by deterministic automated tests.
+- The application is deployed and demonstrated through a video.
+- The Git repository includes documentation, architectural decisions, AI usage notes, and incremental commits.
+
+**Design Principle:** Prioritize simplicity, correctness, maintainability, and practical product value over unnecessary architectural complexity.

@@ -1,0 +1,35 @@
+Employee Salary Management System
+
+Requirements & Scope | Draft v0.1 | Incubyte Engineering Assessment
+
+Goal & primary user
+
+Replace spreadsheet-based salary management for a multinational organization of 10,000 employees with a usable web application. Primary persona: HR Manager. Enable reliable salary record management and clear compensation reporting.
+
+Proposed MVP scope (product decisions; not explicitly mandated)
+
+• Employee directory: list, search, filter, paginate, view details, create and edit employee records.
+• Salary records: view and update current annual base salary with currency and effective date; validate nonnegative amounts and required fields.
+• Reporting: employee count, salary totals and averages grouped by country and department; filter reports by country/department. Never sum salaries across currencies without conversion.
+• Seed 10,000 realistic synthetic employees, including multiple countries, currencies and departments.
+
+Data & business rules
+
+Employee: unique employee ID, name, department, country, status. Salary: employee ID, annual base amount (decimal), ISO currency code, effective date. Use server-side pagination; ensure deterministic seed generation. Salary updates should be auditable if history is confirmed as in scope. No real personal data.
+
+Technical approach
+
+Java 21 / Spring Boot REST API, Angular / TypeScript UI, PostgreSQL relational database. Layered design (controller, service, repository), request validation, consistent errors, database migrations, indexes for common filters. JUnit 5 / Mockito tests for salary validation, updates, reporting and API behavior. Deploy a working frontend and backend; record a short video demo.
+
+Explicitly deferred from initial MVP
+
+Payroll execution, tax withholding, payslips, benefits, approval workflows, complex compensation plans, real-time FX conversion, HRIS integrations, and multi-tenant enterprise features. Authentication/authorization and salary history remain open questions; deployment must not expose sensitive or writable endpoints publicly without protection.
+
+Clarifications requested from Incubyte
+
+1. Local currencies only, or conversion to a reporting currency?  2. Current salary only, or full salary change history?
+3. Single HR persona or authentication and multiple roles?  4. Annual base salary only, or bonuses and other components?
+
+Acceptance criteria & delivery
+
+HR can navigate and query 10,000 seeded records with pagination; create/edit and validate employee/salary data; view accurate currency-aware reports; receive clear errors for invalid input. Core tests pass. Submit deployed application, demo video, requirements/design notes, AI-use notes, and a Git repository with incremental commits.

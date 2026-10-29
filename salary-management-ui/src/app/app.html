@@ -1,0 +1,345 @@
+
+<main class="dashboard">
+
+  <!-- Main heading -->
+  <header>
+    <h1>Employee Salary Management System</h1>
+    <p>Manage employees and their salary information</p>
+  </header>
+
+  <!-- Add Employee Section -->
+  <section class="employee-form">
+
+    <h2>Add New Employee</h2>
+
+    <form (ngSubmit)="saveEmployee()" #employeeForm="ngForm">
+
+      <div>
+        <label for="name">Employee Name</label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          [(ngModel)]="newEmployee.name"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="newEmployee.email"
+          required
+          email
+        />
+      </div>
+
+      <div>
+        <label for="department">Department</label>
+        <input
+          id="department"
+          type="text"
+          name="department"
+          [(ngModel)]="newEmployee.department"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="salary">Salary</label>
+        <input
+          id="salary"
+          type="number"
+          name="salary"
+          [(ngModel)]="newEmployee.salary"
+          min="0.01"
+          step="0.01"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="saving || employeeForm.invalid"
+      >
+        {{ saving ? 'Saving...' : 'Add Employee' }}
+      </button>
+
+    </form>
+
+  </section>
+
+  <!-- Employee Dashboard -->
+  <section>
+
+    
+<div class="salary-summary">
+  <div class="summary-card">
+    <h3>Total Employees</h3>
+    <p>{{ totalEmployees }}</p>
+  </div>
+
+  <div class="summary-card">
+    <h3>Total Annual Salary</h3>
+    <p>{{ totalSalary | currency:'USD' }}</p>
+  </div>
+
+  <div class="summary-card">
+    <h3>Average Annual Salary</h3>
+    <p>{{ averageSalary | currency:'USD' }}</p>
+  </div>
+</div>
+
+
+    <h2>Employee Dashboard</h2>
+    <p>View employee records and salary details.</p>
+    <div class="search-container">
+  <label for="employeeSearch">Search Employees</label>
+
+  <input
+    id="employeeSearch"
+    type="text"
+    placeholder="Search by name, email, or department..."
+    [(ngModel)]="searchTerm"
+    name="employeeSearch"
+  />
+</div>
+
+
+<div class="sort-container">
+  <label for="salarySort">Sort Employees by Salary</label>
+
+  <select
+    id="salarySort"
+    [(ngModel)]="salarySort"
+    name="salarySort"
+  >
+    <option value="none">Default Order</option>
+    <option value="high">Highest Salary First</option>
+    <option value="low">Lowest Salary First</option>
+  </select>
+</div>
+
+
+<div class="department-filter">
+  <label for="departmentFilter">Filter by Department</label>
+
+  <select
+    id="departmentFilter"
+    [(ngModel)]="selectedDepartment"
+    name="departmentFilter"
+  >
+    <option value="all">All Departments</option>
+    
+@for (department of departments; track department) {
+  <option [value]="department">{{ department }}</option>
+}
+
+  </select>
+</div>
+
+
+
+    <!-- Success message -->
+    @if (formSuccess) {
+      <p class="success">{{ formSuccess }}</p>
+    }
+
+    <!-- Error message -->
+    @if (formError) {
+      <p class="error">{{ formError }}</p>
+    }
+
+    <!-- Loading message -->
+    @if (loading) {
+      <p>Loading employees...</p>
+    }
+
+    <!-- API error message -->
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+
+    <!-- Employee Table -->
+    @if (!loading && !errorMessage) {
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          
+@for (employee of paginatedEmployees; track employee.id) {
+
+
+            <tr>
+              <td>{{ employee.id }}</td>
+              <td>{{ employee.name }}</td>
+              <td>{{ employee.email }}</td>
+              <td>{{ employee.department }}</td>
+              <td>{{ employee.salary | number:'1.2-2' }}</td>
+
+              <td>
+                <button
+                  type="button"
+                  (click)="startEditing(employee)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="deleteEmployee(employee)"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+
+          } @empty {
+
+            <tr>
+              <td colspan="6">No employees found.</td>
+            </tr>
+
+          }
+
+        </tbody>
+      </table>
+
+
+<div class="page-size-container">
+  <label for="pageSize">Employees per page:</label>
+
+  <select
+    id="pageSize"
+    [(ngModel)]="pageSize"
+    (ngModelChange)="currentPage = 1"
+    name="pageSize"
+  >
+    <option [ngValue]="5">5</option>
+    <option [ngValue]="10">10</option>
+    <option [ngValue]="20">20</option>
+    <option [ngValue]="50">50</option>
+  </select>
+</div>
+     
+
+<div class="pagination-controls">
+  <button
+    type="button"
+    (click)="currentPage = safeCurrentPage - 1"
+    [disabled]="safeCurrentPage <= 1"
+  >
+    Previous
+  </button>
+
+  <span>
+    Page {{ safeCurrentPage }} of {{ totalPages }}
+  </span>
+
+  <button
+    type="button"
+    (click)="currentPage = safeCurrentPage + 1"
+    [disabled]="safeCurrentPage >= totalPages"
+  >
+    Next
+  </button>
+</div>
+
+
+
+      <!-- Edit Employee Section -->
+      @if (editingEmployeeId !== null) {
+
+        <div class="edit-panel">
+
+          <h3>Edit Employee</h3>
+
+          <form
+            (ngSubmit)="saveEditedEmployee()"
+            #editForm="ngForm"
+          >
+
+            <label for="editName">Employee Name</label>
+            <input
+              id="editName"
+              name="editName"
+              type="text"
+              [(ngModel)]="editEmployee.name"
+              required
+            />
+
+            <label for="editEmail">Email</label>
+            <input
+              id="editEmail"
+              name="editEmail"
+              type="email"
+              [(ngModel)]="editEmployee.email"
+              required
+              email
+            />
+
+            <label for="editDepartment">Department</label>
+            <input
+              id="editDepartment"
+              name="editDepartment"
+              type="text"
+              [(ngModel)]="editEmployee.department"
+              required
+            />
+
+            <label for="editSalary">Salary</label>
+            <input
+              id="editSalary"
+              name="editSalary"
+              type="number"
+              [(ngModel)]="editEmployee.salary"
+              min="0.01"
+              step="0.01"
+              required
+            />
+
+            <button
+              type="submit"
+              [disabled]="editSaving || editForm.invalid"
+            >
+              {{ editSaving ? 'Saving...' : 'Save Changes' }}
+            </button>
+
+            <button
+              type="button"
+              (click)="cancelEditing()"
+              [disabled]="editSaving"
+            >
+              Cancel
+            </button>
+
+          </form>
+
+          @if (editError) {
+            <p class="error">{{ editError }}</p>
+          }
+
+        </div>
+
+      }
+
+    }
+
+  </section>
+
+</main>
