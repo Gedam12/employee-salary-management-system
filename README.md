@@ -135,3 +135,9 @@ The backend also handles invalid requests and missing employee records with mean
 - Employee data is stored in PostgreSQL.
 - The frontend currently performs filtering, sorting, and pagination on employee records loaded from the backend.
 - Database credentials are supplied through an environment variable rather than committed to source control.
+
+## Video Demo
+
+Watch the deployed Employee Salary Management System in action:
+
+[Watch Demo Video](https://drive.google.com/file/d/1LOY8mwXuQ8wAuJoKAzN8QT2AudgUpUr8/view?usp=sharing)
