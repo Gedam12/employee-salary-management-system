@@ -136,6 +136,28 @@ The backend also handles invalid requests and missing employee records with mean
 - The application supports server-side pagination, searching, department filtering, and salary sorting through Spring Boot REST APIs. The Angular frontend sends query parameters to the backend and displays paginated results returned from PostgreSQL.
 - Database credentials are supplied through an environment variable rather than committed to source control.
 
+## Live Application & Cloud Deployment
+
+The Employee Salary Management System is fully deployed and accessible online.
+
+- **Live Frontend (Vercel):** https://employee-salary-management-system-alpha.vercel.app
+- **Backend API (Render):** https://employee-salary-management-system-uuqm.onrender.com
+- **Database:** Neon PostgreSQL
+
+### Deployment Architecture
+
+The application uses a three-tier architecture with independently hosted components:
+
+- **Vercel:** Hosts the Angular frontend and provides access to the live web application.
+- **Render:** Hosts the Java Spring Boot backend using Docker, handling REST API requests, employee management operations, and business logic.
+- **Neon:** Provides a cloud-hosted PostgreSQL database containing 10,000 seeded employee records.
+
+The Angular frontend communicates with the Spring Boot backend through REST APIs. The backend connects to Neon PostgreSQL using environment variables to securely manage database credentials.
+
+The application supports full CRUD operations, server-side pagination, searching, department filtering, salary sorting, and salary summary calculations.
+
+**Note:** The backend runs on Render's free tier, so the first request may take additional time if the service has been inactive.
+
 ## Video Demo
 
 Watch the deployed Employee Salary Management System in action:
