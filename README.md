@@ -133,7 +133,7 @@ The backend also handles invalid requests and missing employee records with mean
 ## Notes
 
 - Employee data is stored in PostgreSQL.
-- The frontend currently performs filtering, sorting, and pagination on employee records loaded from the backend.
+- The application supports server-side pagination, searching, department filtering, and salary sorting through Spring Boot REST APIs. The Angular frontend sends query parameters to the backend and displays paginated results returned from PostgreSQL.
 - Database credentials are supplied through an environment variable rather than committed to source control.
 
 ## Video Demo
