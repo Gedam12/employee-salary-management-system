@@ -16,7 +16,7 @@ The goal is to build a web-based Employee Salary Management System that allows H
 - **Employee Management:** View, add, update, search, and filter employee records.
 - **Salary Management:** View and update employee salaries with appropriate input validation.
 - **HR Dashboard:** Display total employees, salary summaries, and payroll information.
-- **Salary Analytics:** Analyze salary distribution by department, country, and employee.
+- **Salary Analytics:** Display organization-wide salary totals and average salary, with employee-level salary search and sorting.
 - **Search and Pagination:** Efficiently navigate records for 10,000 employees.
 - **Data Seeding:** Provide a script to generate 10,000 realistic sample employee records.
 
@@ -46,6 +46,8 @@ To keep the solution focused, the following are excluded unless clarified as req
 - Integration with external HR platforms
 - Complex approval workflows
 - Advanced predictive analytics
+- Country-specific compensation analytics and currency conversion
+- Authentication and role-based access control (prototype only; required before production use)
 
 ## 7. Open Questions
 
