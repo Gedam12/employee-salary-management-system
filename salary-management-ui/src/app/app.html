@@ -99,24 +99,30 @@
     <div class="search-container">
   <label for="employeeSearch">Search Employees</label>
 
-  <input
-    id="employeeSearch"
-    type="text"
-    placeholder="Search by name, email, or department..."
-    [(ngModel)]="searchTerm"
-    name="employeeSearch"
-  />
+  
+<input
+  id="employeeSearch"
+  type="text"
+  placeholder="Search by name, email, or department..."
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="currentPage = 1; loadEmployees()"
+  name="employeeSearch"
+/>
+
 </div>
 
 
 <div class="sort-container">
   <label for="salarySort">Sort Employees by Salary</label>
 
-  <select
-    id="salarySort"
-    [(ngModel)]="salarySort"
-    name="salarySort"
-  >
+  
+<select
+  id="salarySort"
+  [(ngModel)]="salarySort"
+  (ngModelChange)="currentPage = 1; loadEmployees()"
+  name="salarySort"
+>
+
     <option value="none">Default Order</option>
     <option value="high">Highest Salary First</option>
     <option value="low">Lowest Salary First</option>
@@ -127,11 +133,14 @@
 <div class="department-filter">
   <label for="departmentFilter">Filter by Department</label>
 
-  <select
-    id="departmentFilter"
-    [(ngModel)]="selectedDepartment"
-    name="departmentFilter"
-  >
+  
+<select
+  id="departmentFilter"
+  [(ngModel)]="selectedDepartment"
+  (ngModelChange)="currentPage = 1; loadEmployees()"
+  name="departmentFilter"
+>
+
     <option value="all">All Departments</option>
     
 @for (department of departments; track department) {
@@ -224,12 +233,14 @@
 <div class="page-size-container">
   <label for="pageSize">Employees per page:</label>
 
-  <select
-    id="pageSize"
-    [(ngModel)]="pageSize"
-    (ngModelChange)="currentPage = 1"
-    name="pageSize"
-  >
+  
+<select
+  id="pageSize"
+  [(ngModel)]="pageSize"
+  (ngModelChange)="currentPage = 1; loadEmployees()"
+  name="pageSize"
+>
+
     <option [ngValue]="5">5</option>
     <option [ngValue]="10">10</option>
     <option [ngValue]="20">20</option>
@@ -239,25 +250,29 @@
      
 
 <div class="pagination-controls">
-  <button
-    type="button"
-    (click)="currentPage = safeCurrentPage - 1"
-    [disabled]="safeCurrentPage <= 1"
-  >
-    Previous
-  </button>
+  
+<button
+  type="button"
+  (click)="currentPage = safeCurrentPage - 1; loadEmployees()"
+  [disabled]="loading || safeCurrentPage <= 1"
+>
+  Previous
+</button>
+
 
   <span>
     Page {{ safeCurrentPage }} of {{ totalPages }}
   </span>
 
-  <button
-    type="button"
-    (click)="currentPage = safeCurrentPage + 1"
-    [disabled]="safeCurrentPage >= totalPages"
-  >
-    Next
-  </button>
+  
+<button
+  type="button"
+  (click)="currentPage = safeCurrentPage + 1; loadEmployees()"
+  [disabled]="loading || safeCurrentPage >= totalPages"
+>
+  Next
+</button>
+
 </div>
 
 
