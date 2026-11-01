@@ -1,4 +1,4 @@
-
+import { retry, timer } from 'rxjs';
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -44,26 +44,43 @@ export class EmployeeService {
 
   // Get paginated employees with search, filtering and sorting
   getEmployeesPaged(
-    page: number = 0,
-    size: number = 10,
-    search: string = '',
-    department: string = 'all',
-    salarySort: string = 'none'
-  ): Observable<EmployeePage> {
+  page: number = 0,
+  size: number = 10,
+  search: string = '',
+  department: string = 'all',
+  salarySort: string = 'none'
+): Observable<EmployeePage> {
 
-    return this.http.get<EmployeePage>(
-      `${this.apiUrl}/paged`,
-      {
-        params: {
-          page: page.toString(),
-          size: size.toString(),
-          search,
-          department,
-          salarySort
-        }
+  return this.http.get<EmployeePage>(
+    `${this.apiUrl}/paged`,
+    {
+      params: {
+        page: page.toString(),
+        size: size.toString(),
+        search,
+        department,
+        salarySort
       }
-    );
-  }
+    }
+  ).pipe(
+    retry({
+      count: 8,
+      delay: (error, retryCount) => {
+        // Retry temporary backend failures only
+        if (
+          error.status !== 0 &&
+          error.status !== 502 &&
+          error.status !== 503 &&
+          error.status !== 504
+        ) {
+          throw error;
+        }
+
+        return timer(10000);
+      }
+    })
+  );
+}
 
   // Get organization-wide salary statistics
   getSalarySummary(): Observable<SalarySummary> {
